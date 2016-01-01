@@ -64,7 +64,7 @@
   }
 }
 
-div.nav-expanded {
+#nav.nav-expanded {
   transition: width 0.2s;
   width: 180px;
 
@@ -74,7 +74,7 @@ div.nav-expanded {
   }
 }
 
-div.nav-collapsed {
+#nav.nav-collapsed {
   transition: width 0.2s;
   width: 57px;
 
