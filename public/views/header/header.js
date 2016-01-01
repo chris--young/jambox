@@ -7,6 +7,10 @@
 
 var Request = require('../../utils/request.js');
 
+var Controls = require('./controls/controls.js'),
+    Info = require('./info/info.js'),
+    Settings = require('./settings/settings.js');
+
 module.exports = Backbone.View.extend({
 
   /**
@@ -29,8 +33,7 @@ module.exports = Backbone.View.extend({
         that.template = _.template(body);
         that.render();
         that.$el.removeClass('hidden');
-
-        return that.callback();
+        that.callback();
       }
     });
   },
@@ -41,7 +44,10 @@ module.exports = Backbone.View.extend({
    */
   setUiElements: function () {
     this.ui = {
-      $contentWrapper: $('#content-wrapper')
+      $contentWrapper: $('#content-wrapper'),
+      $controls: $('#controls'),
+      $info: $('#info'),
+      $settings: $('#settings')
     };
   },
 
@@ -50,9 +56,52 @@ module.exports = Backbone.View.extend({
    * @description: Draws the view
    */
   render: function () {
+    var that = this;
+
     this.$el.html(this.template());
     this.setUiElements();
-    this.ui.$contentWrapper.css('height', 'calc(100% - ' + this.$el.height() + 'px)');
+
+    async.series([function (callback) {
+      if (!that.controls) {
+        that.controls = new Controls({
+          parent: that,
+          el: that.ui.$controls,
+          callback: callback
+        });
+      } else {
+        that.controls.render();
+        callback();
+      }
+    }, function (callback) {
+      if (!that.info) {
+        that.info = new Info({
+          parent: that,
+          el: that.ui.$info,
+          callback: callback
+        });
+      } else {
+        that.info.render();
+        callback();
+      }
+    }, function (callback) {
+      if (!that.settings) {
+        that.settings = new Settings({
+          parent: that,
+          el: that.ui.$settings,
+          callback: callback
+        });
+      } else {
+        that.settings.render();
+        callback();
+      }
+    }], function (error) {
+      if (error) {
+        return that.callback(error);
+      }
+
+      that.ui.$contentWrapper.css('height', 'calc(100% - ' + that.$el.height() + 'px)');
+    });
   }
 
 });
+

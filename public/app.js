@@ -52,7 +52,7 @@
         });
       }], function (error) {
         if (error) {
-          that.ui.$content.html(this.errorTemplate());
+          that.ui.$contentWrapper.html(that.errorTemplate());
         }
 
         that.ui.$contentWrapper.removeClass('hidden');

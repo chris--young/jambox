@@ -23,15 +23,14 @@ module.exports = Backbone.View.extend({
       url: 'views/nav/nav.tmpl',
       callback: function (error, body) {
         if (error) {
-          return options.callback(error);
+          return that.callback(error);
         }
 
         that.template = _.template(body);
         that.render();
         that.$el.removeClass('hidden');
         that.listenTo(that.router, 'route', that.setActive);
-
-        return options.callback();
+        that.callback();
       }
     });
   },
@@ -111,4 +110,3 @@ module.exports = Backbone.View.extend({
   }
 
 });
-

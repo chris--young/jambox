@@ -1,0 +1,39 @@
+#controls {
+  display: inline-block;
+  padding: 1rem;
+  text-align: center;
+
+  a {
+    color: #292617;
+    display: inline-block;
+    margin: 1rem;
+    vertical-align: middle;
+
+    span {
+      border: #000;
+    }
+  }
+
+  #volume {
+    -webkit-appearance: none;
+    width: 100%;
+  }
+
+  #volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #1E1C11;
+    border-radius: 99px;
+    height: 15px;
+    margin-top: -5px;
+    width: 15px;
+  }
+
+  #volume::-webkit-slider-runnable-track {
+    background: #292617;
+    height: 5px;
+  }
+
+  #volume:focus {
+    outline: none;
+  }
+}

@@ -1,0 +1,26 @@
+#settings {
+  text-align: center;
+
+  a {
+    background: #5B5636;
+    background: linear-gradient(0deg, #4A4525, #5B5636);
+    border: 1px #35321E solid;
+    border-radius: 2px;
+    color: #292617;
+    display: inline-block;
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  #repeat {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    margin-right: 0;
+  }
+
+  #random {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    margin-left: 0;
+  }
+}
