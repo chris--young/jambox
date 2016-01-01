@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="author" content="Chris Young (young.c.5690@gmail.com)">
+
+    <title>Jambox</title>
+
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/bower_components/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+
+    <link href="app.css" rel="stylesheet" type="text/css">
+
+    <!--[if lt IE 9]>
+      <script src="/bower_components/html5shiv/dist/html5shiv.js"></script>
+    <![endif]-->
+
+  </head>
+  <body>
+
+    <noscript>
+      <div class="page-error">
+        <div class="box-vertical-align"></div>
+        <div class="box">
+          <div class="box-header">
+            <span class="fa fa-info-circle fa-fw fa-lg box-icon"></span>
+            <h1>Error</h1>
+          </div>
+          <div class="box-content text-right">
+            <p class="text-center">This website requires JavaScript. Enable it and then refresh the page.</p>
+          </div>
+        </div>
+      </div>
+    </noscript>
+
+    <div id="unsupported-browser-error" class="page-error hidden">
+      <div class="box-vertical-align"></div>
+      <div class="box">
+        <div class="box-header">
+          <span class="fa fa-info-circle fa-fw fa-lg box-icon"></span>
+          <h1>Error</h1>
+        </div>
+        <div class="box-content text-right">
+          <p class=text-center">This website does not support your web browser. Update to a modern browser such as <a href="https://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="https://www.mozilla.org/firefox/" target="_blank">FireFox</a> and then come back.</p>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      (function () {
+
+        if (!window.addEventListener) {
+          var unsupportedBrowserError = document.getElementById('unsupported-browser-error');
+          unsupportedBrowserError.className = unsupportedBrowserError.className.replace(/\ hidden/g, '');
+        }
+
+      })();
+    </script>
+
+    <header id="header" class="row hidden"></header>
+    <div id="content-wrapper" class="row hidden">
+      <nav id="nav" class="col-xs-2 nav-expanded hidden"></nav>
+      <div id="content" class="col-xs-10"></div>
+    </div>
+
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal-label">
+      <div class="modal-dialog" role="document">
+        <div class="box">
+          <div class="box-header">
+            <span class="fa fa-info-circle fa-fw fa-lg box-icon"></span>
+            <h1 id="modal-title"></h1>
+          </div>
+          <div class="box-content">
+            <p id="modal-message" class="text-center"></p>
+            <div id="modal-buttons" class="text-right">
+              <button type="button" data-dismiss="modal">Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/bower_components/jquery/dist/jquery.js"></script> 
+    <script src="/bower_components/underscore/underscore.js"></script>
+    <script src="/bower_components/backbone/backbone.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/bower_components/async/dist/async.js"></script>
+    <script src="/bower_components/fetch/fetch.js"></script>
+    <script src="/bower_components/bluebird/js/browser/bluebird.js"></script>
+
+    <template id="error-template">
+      <div class="page-error">
+        <div class="box-vertical-align"></div>
+        <div class="box">
+          <div class="box-header">
+            <span class="fa fa-info-circle fa-fw fa-lg box-icon"></span>
+            <h1>Error</h1>
+          </div>
+          <div class="box-content text-right">
+            <p id="error-message" class="text-center">Something on this page failed to load. Refresh to try again.</p>
+            <button onclick="javascript:history.go(0);">Refresh</button>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="loading-template">
+      <div class="loading-page">
+        <div class="loading-vertical-align"></div>
+        <div class="loading-spinner text-center">
+          <span class="fa fa-refresh fa-fw fa-3x fa-spin"></span>
+          <h3>Loading...</h3>
+        </div>
+      </div>
+    </template>
+
+    <script src="/bundle.js"></script>
+
+  </body>
+</html>

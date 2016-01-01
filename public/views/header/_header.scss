@@ -1,0 +1,15 @@
+#header {
+  background: #403C25;
+  background: linear-gradient(0deg, #423C25, #514D36);
+  border-bottom: 1px #302B15 solid;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  color: #EEE;
+  position: relative;
+  z-index: 2;
+
+  h1 {
+    font-size: 3rem;
+    margin: 2rem;
+    padding-left: 2rem;
+  }
+}
