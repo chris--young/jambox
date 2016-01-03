@@ -1,0 +1,56 @@
+#picker {
+  background: #FFF;
+
+  div.picker-column {
+    border-right: 1px #000 solid;
+  }
+
+  div.picker-column:last-child {
+    border-right: none;
+  }
+
+  div.column-header {
+    background: #CCC;
+    padding: 0.5rem;
+
+    h1 {
+      display: inline;
+      font-size: 1.5rem;
+      font-weight: normal;
+      margin: 0;
+    }
+
+    span {
+      float: right;
+      position: relative;
+      right: 0.5rem;
+      top: 0.25rem;
+    }
+  }
+
+  ol {
+    background: #FFF;
+    border-top: 1px #000 solid;
+    margin-bottom: 0;
+
+    li {
+      border-bottom: 1px #000 solid;
+      font-size: 1.5rem;
+      font-weight: 300;
+
+      a {
+        display: block;
+        padding: 0.25rem;
+        padding-left: 0.5rem;
+      }
+    }
+
+    li.empty {
+      padding: 0.25rem;
+    }
+
+    li.selected {
+      background: #F6F6F6;
+    }
+  }
+}

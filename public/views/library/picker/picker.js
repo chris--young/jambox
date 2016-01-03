@@ -1,16 +1,16 @@
 /**
- * public/views/home/home.js
+ * public/views/library/picker/picker.js
  *
- * @description: Home view
+ * @description: Track picker view
  * @author: Chris Young (young.c.5690@gmail.com)
  */
 
-var Request = require('../../utils/request.js');
+var Request = require('../../../utils/request.js');
 
 module.exports = Backbone.View.extend({
 
   /**
-   * Home.initialize()
+   * Picker.initialize()
    * @description: Loads view template
    * @param: {Object} options
    */
@@ -19,30 +19,25 @@ module.exports = Backbone.View.extend({
 
     _.extend(this, options);
 
-    this.errorTemplate = _.template(this.parent.ui.$errorTemplate.html());
-    this.loadingTemplate = _.template(this.parent.ui.$loadingTemplate.html());
-
     new Request({
-      url: 'views/home/home.tmpl',
+      url: 'views/library/picker/picker.tmpl',
       callback: function (error, body) {
-        if (!error) {
-          that.template = _.template(body);
+        if (error) {
+          return that.callback(error);
         }
 
+        that.template = _.template(body);
         that.render();
+        that.callback();
       }
     });
   },
 
   /**
-   * Home.render()
+   * Picker.render()
    * @description: Draws the view
    */
   render: function () {
-    if (!this.template) {
-      return this.$el.html(this.errorTemplate());
-    }
-
     this.$el.html(this.template());
   }
 

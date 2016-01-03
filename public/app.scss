@@ -127,7 +127,6 @@ div.progress {
 #content {
   align-items: top;
   background: #BCB58C;
-  padding: 1.5rem;
   transition: width 0.2s;
   height: 100%;
   width: calc(100% - 180px);
@@ -256,4 +255,4 @@ div.loading-page {
 
 @import 'views/header/header';
 @import 'views/nav/nav';
-@import 'views/home/home';
+@import 'views/library/library';

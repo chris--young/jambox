@@ -11,7 +11,7 @@
 
   var Header = require('./views/header/header.js'),
       Nav = require('./views/nav/nav.js'),
-      Home = require('./views/home/home.js');
+      Library = require('./views/library/library.js');
 
   var App = Backbone.Router.extend({
 
@@ -75,31 +75,40 @@
      * @description: Declares app view routing
      */
     routes: {
-      '': 'redirectToHome',
-      'home': 'home'
+      '': 'redirectToLibrary',
+      'library': 'library',
+      '*notfound': 'notFound'
     },
 
     /**
      * App.redirectToHome()
-     * @description: Redirect to the home view when no page is specified
+     * @description: Redirect to the library view when no page is specified
      */
     redirectToHome: function () {
-      window.location.replace('#/home');
+      window.location.replace('#/library');
     },
 
     /**
-     * App.home()
+     * App.library()
      * @description: Creates the home view or renders it if it already exists
      */
-    home: function () {
-      if (!this.views.home) {
-        this.views.home = new Home({
+    library: function () {
+      if (!this.views.library) {
+        this.views.library = new Library({
           parent: this,
           el: this.ui.$content
         });
       } else {
-        this.views.home.render();
+        this.views.library.render();
       }
+    },
+
+    /**
+     * App.notFound()
+     * @description: Displays an error for unknown routes
+     */
+    notFound: function () {
+      this.ui.$content.html(this.errorTemplate());
     }
 
   });
@@ -107,3 +116,4 @@
   var app = new App();
 
 })();
+

@@ -1,0 +1,32 @@
+#picked {
+  table {
+    width: 100%;
+
+    thead {
+      th {
+        padding: 0.5rem;
+      }
+      
+      label {
+        font-size: 1.5rem;
+        font-weight: normal;
+        margin-bottom: 0;
+      }
+
+      span {
+        float: right;
+        position: relative;
+        right: 0.5rem;
+        top: 0.25rem;
+      }
+    }
+
+    tbody {
+      td {
+        font-size: 1.5rem;
+        padding: 0.25rem;
+        padding-left: 0.5rem;
+      }
+    }
+  }
+}
