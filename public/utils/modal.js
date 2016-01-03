@@ -8,13 +8,29 @@
 function Modal(options) {
   _.extend(this, options);
 
-  this.$el = $('#modal');
-  this.$title = $('#modal-title');
-  this.$message = $('#modal-message');
-  this.$buttons = $('#modal-buttons');
+  this.$modal = $('#modal');
+
+  if (!this.view) {
+    this.template = _.template($('#modal-template').html());
+    this.$el = $('#modal div.modal-dialog');
+  } else {
+    this.view.$el = $('#modal div.modal-dialog');
+  }
 
   this.render();
 }
+
+/**
+ * Modal.setUiElements()
+ * @description: Gets DOM references for view elements
+ */
+Modal.prototype.setUiElements = function () {
+  this.ui = {
+    $title: $('#modal-title'),
+    $message: $('#modal-message'),
+    $buttons: $('#modal-buttons')
+  };
+};
 
 /**
  * Modal.render()
@@ -23,24 +39,36 @@ function Modal(options) {
 Modal.prototype.render = function () {
   var that = this;
 
-  this.$title.text(this.title);
-  this.$message.text(this.message);
+  if (!this.view) {
+    this.$el.html(this.template());
+    this.setUiElements();
 
-  if (this.buttons) {
-    this.$buttons.html('');
+    this.ui.$title.text(this.title);
+    this.ui.$message.text(this.message);
 
-    _.each(this.buttons, function (button) {
-      var $element = $('<button type="button">' + button.text + '</button>');
-      $element.click(button.callback);
-      that.$buttons.append($element);
-    });
+    if (this.buttons) {
+      this.ui.$buttons.html('');
+
+      _.each(this.buttons, function (button) {
+        var $element = $('<button type="button">' + button.text + '</button>');
+        $element.click(button.callback);
+        that.ui.$buttons.append($element);
+      });
+    } else {
+      var $button = $('<button type="button" data-dismiss="modal">Ok</button>');
+      $button.click(this.callback);
+      this.ui.$buttons.append($button);
+    }
   } else {
-    var $button = $('<button type="button" data-dismiss="modal">Ok</button>');
-    $button.click(this.callback);
-    this.$buttons.append($button);
+    this.view.$el.html(this.view.template());
+    this.view.delegateEvents();
+
+    if (this.view.setUiElements) {
+      this.view.setUiElements();
+    }
   }
 
-  this.$el.modal('show');
+  this.$modal.modal('show');
 };
 
 /**
@@ -48,7 +76,8 @@ Modal.prototype.render = function () {
  * @description: Hides the modal
  */
 Modal.prototype.close = function () {
-  this.$el.modal('hide');
+  this.$modal.modal('hide');
 };
 
 module.exports = Modal;
+

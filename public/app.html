@@ -65,20 +65,7 @@
     </div>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal-label">
-      <div class="modal-dialog" role="document">
-        <div class="box">
-          <div class="box-header">
-            <span class="fa fa-info-circle fa-fw fa-lg box-icon"></span>
-            <h1 id="modal-title"></h1>
-          </div>
-          <div class="box-content">
-            <p id="modal-message" class="text-center"></p>
-            <div id="modal-buttons" class="text-right">
-              <button type="button" data-dismiss="modal">Ok</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="modal-dialog" role="document"></div>
     </div>
 
     <script src="/bower_components/jquery/dist/jquery.js"></script> 
@@ -111,6 +98,21 @@
         <div class="loading-spinner text-center">
           <span class="fa fa-refresh fa-fw fa-3x fa-spin"></span>
           <h3>Loading...</h3>
+        </div>
+      </div>
+    </template>
+
+    <template id="modal-template">
+      <div class="box">
+        <div class="box-header">
+          <span class="fa fa-info-circle fa-fw fa-lg box-icon"></span>
+          <h1 id="modal-title"></h1>
+        </div>
+        <div class="box-content">
+          <p id="modal-message" class="text-center"></p>
+          <div id="modal-buttons" class="text-right">
+            <button type="button" data-dismiss="modal">Ok</button>
+          </div>
         </div>
       </div>
     </template>
