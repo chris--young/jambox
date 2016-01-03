@@ -1,4 +1,4 @@
-#picked {
+#queue {
   table {
     width: 100%;
 
@@ -24,8 +24,12 @@
     tbody {
       td {
         font-size: 1.5rem;
+        max-width: 100px;
+        overflow: hidden;
         padding: 0.25rem;
         padding-left: 0.5rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }

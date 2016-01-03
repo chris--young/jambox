@@ -1,0 +1,59 @@
+<table>
+  <thead>
+    <tr>
+      <!-- th>
+        <label>Track</label>
+        <a href="#"><span class="fa fa-sort"></span></a>
+      </th -->
+      <th>
+        <label>Title</label>
+        <a href="#"><span class="fa fa-sort"></span></a>
+      </th>
+      <th>
+        <label>File Name</label>
+        <a href="#"><span class="fa fa-sort"></span></a>
+      </th>
+      <th>
+        <label>Artist</label>
+        <a href="#"><span class="fa fa-sort"></span></a>
+      </th>
+      <th>
+        <label>Album</label>
+        <a href="#"><span class="fa fa-sort"></span></a>
+      </th>
+      <!-- th>
+        <label>Genera</label>
+        <a href="#"><span class="fa fa-sort"></span></a>
+      </th -->
+      <th>
+        <label>Bitrate</label>
+        <a href="#"><span class="fa fa-sort"></span></a>
+      </th>
+      <!-- th>
+        <label>Sample Rate</label>
+        <a href="#"><span class="fa fa-sort"></span></a>
+      </th -->
+      <th>
+        <label>Length</label>
+        <a href="#"><span class="fa fa-sort"></span></a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% _.each(mp3s, function (mp3) { %>
+      <a href="#" data-id="<%- mp3.get('id') %>">
+        <tr>
+          <!-- td><%- mp3.get('track') || 'Unknown' %></td -->
+          <td><%- mp3.get('title') || 'Unknown' %></td>
+          <td><%- mp3.get('fileName') || 'Unknown' %></td>
+          <td><%- mp3.get('artist') || 'Unknown' %></td>
+          <td><%- mp3.get('album') || 'Unknown' %></td>
+          <!-- td><%- mp3.get('genera') || 'Unknown' %></td -->
+          <td><%- mp3.get('bitrate') || 'Unknown' %></td>
+          <!-- td><%- mp3.get('sampleRate') || 'Unknown' %></td -->
+          <td><%- mp3.get('length') || 'Unknown' %></td>
+        </tr>
+      </a>
+    <% }); %>
+  </tbody>
+</table>

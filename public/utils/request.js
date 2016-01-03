@@ -49,10 +49,10 @@ Request.prototype.fetch = function () {
         return;
       }
 
-      if (response.headers.get('Content-Type') === 'application/json') {
+      if (~response.headers.get('Content-Type').indexOf('application/json')) {
         return response.json();
       }
-        
+
       return response.text();
     }).then(function (body) {
       return that.callback(null, body);

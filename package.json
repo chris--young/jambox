@@ -10,8 +10,13 @@
   "author": "Chris Young (young.c.5690@gmail.com)",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.14.2",
     "express": "^4.13.3",
+    "is-mp3": "^1.1.0",
+    "lodash": "^3.10.1",
+    "mongoose": "^4.3.4",
+    "mp3-duration": "^1.0.9",
+    "mp3-parser": "^0.2.5",
+    "multer": "^1.1.0",
     "node-uuid": "^1.4.7"
   },
   "devDependencies": {

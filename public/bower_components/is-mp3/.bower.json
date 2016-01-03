@@ -1,0 +1,42 @@
+{
+  "name": "is-mp3",
+  "description": "Check if a Buffer/Uint8Array a MP3 file.",
+  "license": "MIT",
+  "main": "browser.js",
+  "authors": [
+    {
+      "name": "Hemanth.HM",
+      "email": "hemath.hm@gmail.com",
+      "url": "http://h3manth.com"
+    }
+  ],
+  "keywords": [
+    "mp3",
+    "type",
+    "detect",
+    "check",
+    "is",
+    "binary",
+    "buffer",
+    "uint8array"
+  ],
+  "ignore": [
+    ".*",
+    "test.js",
+    "component.json",
+    "package.json",
+    "fixture*"
+  ],
+  "homepage": "https://github.com/hemanth/is-mp3",
+  "version": "1.1.0",
+  "_release": "1.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.1.0",
+    "commit": "eff66db90a4fd97748d67598d1a8741394c849ce"
+  },
+  "_source": "git://github.com/hemanth/is-mp3.git",
+  "_target": "~1.1.0",
+  "_originalSource": "is-mp3",
+  "_direct": true
+}
