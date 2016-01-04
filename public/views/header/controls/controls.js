@@ -34,11 +34,11 @@ module.exports = Backbone.View.extend({
   },
 
   /**
-   * Controls.setUiElements()
-   * @description: Gets DOM references for view elements
+   * Controls.getElements()
+   * @description: Gets DOM references
    */
-  setUiElements: function () {
-    this.ui = {
+  getElements: function () {
+    this.elements = {
       $backward: $('#backward'),
       $playPause: $('#play-pause'),
       $playPauseSpan: $('#play-pause span'),
@@ -52,7 +52,7 @@ module.exports = Backbone.View.extend({
    */
   render: function () {
     this.$el.html(this.template());
-    this.setUiElements();
+    this.getElements();
   },
 
   /**
@@ -82,10 +82,10 @@ module.exports = Backbone.View.extend({
   playPause: function (event) {
     event.preventDefault();
 
-    if (this.ui.$playPauseSpan.hasClass('fa-play')) {
-      this.ui.$playPauseSpan.removeClass('fa-play').addClass('fa-pause');
+    if (this.elements.$playPauseSpan.hasClass('fa-play')) {
+      this.elements.$playPauseSpan.removeClass('fa-play').addClass('fa-pause');
     } else {
-      this.ui.$playPauseSpan.removeClass('fa-pause').addClass('fa-play');
+      this.elements.$playPauseSpan.removeClass('fa-pause').addClass('fa-play');
     }
   },
 

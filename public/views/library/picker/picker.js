@@ -63,7 +63,7 @@ module.exports = Backbone.View.extend({
 
   /**
    * Picker.select()
-   * @description: Updates picker selection
+   * @description: Updates picker selection and triggers change event
    * @param: {Object} event
    */
   select: function (event) {

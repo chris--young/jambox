@@ -23,7 +23,49 @@
       var that = this;
 
       this.views = {};
-      this.ui = {
+      this.getElements();
+      this.templates = {
+        error: _.template(this.elements.$errorTemplate.html()),
+        loading: _.template(this.elements.$loadingTemplate.html())
+      };
+
+      Backbone.history.start();
+
+      async.series([_.bind(this.renderHeader, this), _.bind(this.renderNav, this)], _.bind(this.showContent, this));
+    },
+
+    /**
+     * App.renderHeader()
+     * @description: Creates the header view
+     * @param: {Function} callback
+     */
+    renderHeader: function (callback) {
+      this.views.header = new Header({
+        parent: this,
+        el: this.elements.$header,
+        callback: callback
+      });
+    },
+
+    /**
+     * App.renderNav()
+     * @description: Creates the nav view
+     * @param: {Function} callback
+     */
+    renderNav: function (callback) {
+      this.views.nav = new Nav({
+        parent: this,
+        el: this.elements.$nav,
+        callback: callback
+      });
+    },
+
+    /**
+     * App.getElements()
+     * @description: Gets DOM references
+     */
+    getElements: function () {
+      this.elements = {
         $body: $('body'),
         $header: $('#header'),
         $nav: $('#nav'),
@@ -32,34 +74,23 @@
         $errorTemplate: $('#error-template'),
         $loadingTemplate: $('#loading-template')
       };
+    },
 
-      this.errorTemplate = _.template(this.ui.$errorTemplate.html());
+    /**
+     * App.showContent()
+     * @description: Displays app main content or error if initialization failed
+     * @param: {Object} error
+     */
+    showContent: function (error) {
+      if (error) {
+        this.elements.$contentWrapper.html(this.templates.error());
+        console.log('App.showContent() error:', error);
+      }
 
-      Backbone.history.start();
+      this.elements.$contentWrapper.removeClass('hidden');
+      this.elements.$contentWrapper.height(this.elements.$contentWrapper.height() - this.elements.$header.height());
 
-      async.series([function (callback) {
-        that.header = new Header({
-          parent: that,
-          el: that.ui.$header,
-          callback: callback
-        });
-      }, function (callback) {
-        that.nav = new Nav({
-          parent: that,
-          el: that.ui.$nav,
-          callback: callback,
-          router: that
-        });
-      }], function (error) {
-        if (error) {
-          that.ui.$contentWrapper.html(that.errorTemplate());
-        }
-
-        that.ui.$contentWrapper.removeClass('hidden');
-        that.ui.$contentWrapper.height(that.ui.$contentWrapper.height() - that.ui.$header.height());
-        
-        $(window).resize(_.bind(that.resize, that));
-      });
+      $(window).resize(_.bind(this.resize, this));
     },
 
     /**
@@ -67,7 +98,7 @@
      * @description: Vertically resizes content on window resize
      */
     resize: function () {
-      this.ui.$contentWrapper.height(this.ui.$body.height() - this.ui.$header.height());
+      this.elements.$contentWrapper.height(this.elements.$body.height() - this.elements.$header.height());
     },
 
     /**
@@ -96,7 +127,7 @@
       if (!this.views.library) {
         this.views.library = new Library({
           parent: this,
-          el: this.ui.$content
+          el: this.elements.$content
         });
       } else {
         this.views.library.render();
@@ -108,12 +139,13 @@
      * @description: Displays an error for unknown routes
      */
     notFound: function () {
-      this.ui.$content.html(this.errorTemplate());
+      this.elements.$content.html(this.templates.error());
     }
 
   });
 
   var app = new App();
+  console.log('app', app);
 
 })();
 

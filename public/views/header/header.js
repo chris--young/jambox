@@ -23,6 +23,8 @@ module.exports = Backbone.View.extend({
 
     _.extend(this, options);
 
+    this.subviews = {};
+
     new Request({
       url: 'views/header/header.tmpl',
       callback: function (error, body) {
@@ -39,11 +41,11 @@ module.exports = Backbone.View.extend({
   },
 
   /**
-   * Header.setUiElements()
-   * @description: Gets DOM references for view elements
+   * Header.getElements()
+   * @description: Gets DOM references
    */
-  setUiElements: function () {
-    this.ui = {
+  getElements: function () {
+    this.elements = {
       $contentWrapper: $('#content-wrapper'),
       $controls: $('#controls'),
       $info: $('#info'),
@@ -59,49 +61,73 @@ module.exports = Backbone.View.extend({
     var that = this;
 
     this.$el.html(this.template());
-    this.setUiElements();
+    this.getElements();
 
-    async.series([function (callback) {
-      if (!that.controls) {
-        that.controls = new Controls({
-          parent: that,
-          el: that.ui.$controls,
-          callback: callback
-        });
-      } else {
-        that.controls.render();
-        callback();
-      }
-    }, function (callback) {
-      if (!that.info) {
-        that.info = new Info({
-          parent: that,
-          el: that.ui.$info,
-          callback: callback
-        });
-      } else {
-        that.info.render();
-        callback();
-      }
-    }, function (callback) {
-      if (!that.settings) {
-        that.settings = new Settings({
-          parent: that,
-          el: that.ui.$settings,
-          callback: callback
-        });
-      } else {
-        that.settings.render();
-        callback();
-      }
-    }], function (error) {
+    async.series([
+      _.bind(this.showControls, this),
+      _.bind(this.showInfo, this),
+      _.bind(this.showSettings, this)
+    ], function (error) {
       if (error) {
         return that.callback(error);
       }
 
-      that.ui.$contentWrapper.css('height', 'calc(100% - ' + that.$el.height() + 'px)');
+      that.elements.$contentWrapper.css('height', 'calc(100% - ' + that.$el.height() + 'px)');
     });
+  },
+
+  /**
+   * Header.showControls()
+   * @description: Creates controls subview or renders it if it already exists
+   * @param: {Function} callback
+   */
+  showControls: function (callback) {
+    if (!this.subviews.controls) {
+      this.subviews.controls = new Controls({
+        parent: this,
+        el: this.elements.$controls,
+        callback: callback
+      });
+    } else {
+      this.subviews.controls.render();
+      callback();
+    }
+  },
+
+  /**
+   * Header.showInfo()
+   * @description: Creates info subview or renders it if it already exists
+   * @param: {Function} callback
+   */
+  showInfo: function (callback) {
+    if (!this.subviews.info) {
+      this.subviews.info = new Info({
+        parent: this,
+        el: this.elements.$info,
+        callback: callback
+      });
+    } else {
+      this.subviews.info.render();
+      callback();
+    }
+  },
+
+  /**
+   * Header.showSettings()
+   * @description: Creates settings subview or renders it if it already exists
+   * @param: {Function} callback
+   */
+  showSettings: function (callback) {
+    if (!this.subviews.settings) {
+      this.subviews.settings = new Settings({
+        parent: this,
+        el: this.elements.$settings,
+        callback: callback
+      });
+    } else {
+      this.subviews.settings.render();
+      callback();
+    }
   }
 
 });
-

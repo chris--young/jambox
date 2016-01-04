@@ -29,18 +29,18 @@ module.exports = Backbone.View.extend({
         that.template = _.template(body);
         that.render();
         that.$el.removeClass('hidden');
-        that.listenTo(that.router, 'route', that.setActive);
+        that.listenTo(that.parent, 'route', that.setActive);
         that.callback();
       }
     });
   },
 
   /**
-   * Nav.setUiElements()
-   * @description: Gets DOM references for view elements
+   * Nav.getElements()
+   * @description: Gets DOM references
    */
-  setUiElements: function () {
-    this.ui = {
+  getElements: function () {
+    this.elements = {
       $tooltips: $('#nav [data-toggle="tooltip"]'),
       $lis: $('#nav li'),
       $navText: $('#nav span.nav-text')
@@ -53,7 +53,7 @@ module.exports = Backbone.View.extend({
    */
   render: function () {
     this.$el.html(this.template());
-    this.setUiElements();
+    this.getElements();
     this.toggle();
     this.setActive();
   },
@@ -79,15 +79,15 @@ module.exports = Backbone.View.extend({
 
     if (this.collapsed) {
       this.$el.removeClass('nav-expanded').addClass('nav-collapsed');
-      this.parent.ui.$content.css('width', 'calc(100% - 57px)');
-      this.ui.$tooltips.tooltip();
+      this.parent.elements.$content.css('width', 'calc(100% - 57px)');
+      this.elements.$tooltips.tooltip();
     } else {
-      this.ui.$tooltips.tooltip('destroy');
+      this.elements.$tooltips.tooltip('destroy');
       this.$el.removeClass('nav-collapsed').addClass('nav-expanded');
-      this.parent.ui.$content.css('width', 'calc(100% - 180px)');
+      this.parent.elements.$content.css('width', 'calc(100% - 180px)');
     }
 
-    this.ui.$navText.css('display', 'inline');
+    this.elements.$navText.css('display', 'inline');
   },
 
   /**
@@ -97,8 +97,8 @@ module.exports = Backbone.View.extend({
   setActive: function () {
     var $a = $('#nav a[href="' + window.location.hash + '"]');
 
-    this.ui.$lis.removeClass('active');
-    this.ui.$tooltips.tooltip('hide');
+    this.elements.$lis.removeClass('active');
+    this.elements.$tooltips.tooltip('hide');
 
     if ($a.hasClass('nav-sub-level')) {
       $a.parents('li').addClass('active');

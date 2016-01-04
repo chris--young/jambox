@@ -24,9 +24,7 @@ module.exports = Backbone.View.extend({
 
     _.extend(this, options);
 
-    this.errorTemplate = _.template(this.parent.ui.$errorTemplate.html());
-    this.loadingTemplate = _.template(this.parent.ui.$loadingTemplate.html());
-
+    this.subviews = {};
     this.mp3s = new MP3s();
 
     new Request({
@@ -42,11 +40,11 @@ module.exports = Backbone.View.extend({
   },
     
   /**
-   * Library.setUiElements()
-   * @description: Gets DOM references for view elements
+   * Library.getElements()
+   * @description: Gets DOM references
    */
-  setUiElements: function () {
-    this.ui = {
+  getElements: function () {
+    this.elements = {
       $picker: $('#picker'),
       $queue: $('#queue')
     };
@@ -60,42 +58,27 @@ module.exports = Backbone.View.extend({
     var that = this;
 
     if (!this.template) {
-      return this.$el.html(this.errorTemplate());
+      return this.$el.html(this.parent.templates.error());
     }
 
     this.$el.html(this.template());
-    this.setUiElements();
+    this.getElements();
 
     this.mp3s.on('error sync', function (event) {
+      if (event.type === 'error') {
+        that.$el.html(that.parent.templates.error());
+        return console.log('Library.render() error:', error);
+      }
 
-      async.series([function (callback) {
-        if (!that.picker) {
-          that.picker = new Picker({
-            parent: that,
-            el: that.ui.$picker,
-            callback: callback
-          });
-        } else {
-          that.picker.render();
-          callback();
-        }
-      }, function (callback) {
-        if (!that.queue) {
-          that.queue = new Queue({
-            parent: that,
-            el: that.ui.$queue,
-            callback: callback
-          });
-        } else {
-          that.queue.render();
-          callback();
-        }
-      }], function (error) {
+      async.series([
+        _.bind(that.showPicker, that),
+        _.bind(that.showQueue, that)
+      ], function (error) {
         if (error) {
-          return that.$el.html(that.errorTemplate());
+          that.$el.html(that.parent.templates.error());
+          console.log('Library.render() error:', error);
         }
       });
-
     });
 
     /* this.mp3s.on('error sync', function (event) {
@@ -111,6 +94,42 @@ module.exports = Backbone.View.extend({
     }); */
 
     this.mp3s.fetch();
+  },
+
+  /**
+   * Library.showPicker()
+   * @description: Creates the picker subview or renders it if it already exists
+   * @param: {Function} callback
+   */
+  showPicker: function (callback) {
+    if (!this.subviews.picker) {
+      this.subviews.picker = new Picker({
+        parent: this,
+        el: this.elements.$picker,
+        callback: callback
+      });
+    } else {
+      this.subviews.picker.render();
+      callback();
+    }
+  },
+
+  /**
+   * Library.showQueue()
+   * @description: Creates the queue subview or renders it if it already exists
+   * @param: {Function} callback
+   */
+  showQueue: function (callback) {
+    if (!this.subviews.queue) {
+      this.subviews.queue = new Queue({
+        parent: this,
+        el: this.elements.$queue,
+        callback: callback
+      });
+    } else {
+      this.subviews.queue.render();
+      callback();
+    }
   }
 
 });

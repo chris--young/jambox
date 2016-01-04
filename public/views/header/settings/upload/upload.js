@@ -35,11 +35,11 @@ module.exports = Backbone.View.extend({
   },
 
   /**
-   * Upload.setUiElements();
-   * @description: Gets DOM references for view elements
+   * Upload.getElements();
+   * @description: Gets DOM references
    */
-  setUiElements: function () {
-    this.ui = {
+  getElements: function () {
+    this.elements = {
       $uploadInput: $('#upload-input')
     };
   },
@@ -67,7 +67,7 @@ module.exports = Backbone.View.extend({
    * @param: {Object} event
    */
   selectFiles: function (event) {
-    this.ui.$uploadInput.click().on('change', _.bind(this.changeFile, this));
+    this.elements.$uploadInput.click().on('change', _.bind(this.changeFile, this));
   },
 
   /**
@@ -90,7 +90,7 @@ module.exports = Backbone.View.extend({
    */
   getFileData: function () {
     var that = this,
-        files = this.ui.$uploadInput[0].files,
+        files = this.elements.$uploadInput[0].files,
         reader = new FileReader();
 
     function load() {

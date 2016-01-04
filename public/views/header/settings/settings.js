@@ -22,6 +22,8 @@ module.exports = Backbone.View.extend({
 
     _.extend(this, options);
 
+    this.subviews = {};
+
     new Request({
       url: 'views/header/settings/settings.tmpl',
       callback: function (error, body) {
@@ -37,11 +39,11 @@ module.exports = Backbone.View.extend({
   },
 
   /**
-   * Settings.setUiElements()
-   * @description: Gets DOM references for view elements
+   * Settings.getElements()
+   * @description: Gets DOM references
    */
-  setUiElements: function () {
-    this.ui = {
+  getElements: function () {
+    this.elements = {
       $tooltips: $('#settings [data-toggle="tooltip"]'),
       $upload: $('#upload')
     };
@@ -53,8 +55,8 @@ module.exports = Backbone.View.extend({
    */
   render: function () {
     this.$el.html(this.template());
-    this.setUiElements();
-    this.ui.$tooltips.tooltip();
+    this.getElements();
+    this.elements.$tooltips.tooltip();
   },
 
   /**
@@ -85,8 +87,8 @@ module.exports = Backbone.View.extend({
       });
     }
 
-    if (!this.upload) {
-      this.upload = new Upload({
+    if (!this.subviews.upload) {
+      this.subviews.upload = new Upload({
         parent: this,
         callback: function (error) {
           if (error) {
@@ -95,7 +97,7 @@ module.exports = Backbone.View.extend({
         }
       });
     } else {
-      this.upload.render();
+      this.subviews.upload.render();
     }
   }
 

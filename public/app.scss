@@ -1,7 +1,13 @@
+@font-face {
+  font-family: "Gotham Thin Regular";
+  src: url("fonts/gotham_thin_regular.otf");
+}
+
 * {
   border: 0;
   box-sizing: border-box;
   font-family: sans-serif;
+  /* font-family: Gotham Thin Regular, Helvetica, Arial, sans-serif; */
   margin: 0;
   padding: 0;
 }

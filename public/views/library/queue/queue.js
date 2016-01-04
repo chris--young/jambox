@@ -20,7 +20,7 @@ module.exports = Backbone.View.extend({
     _.extend(this, options);
     _.extend(this, Backbone.Events);
 
-    this.mp3s = this.parent.mp3s.selected(this.parent.picker.selected);
+    this.mp3s = this.parent.mp3s.selected(this.parent.subviews.picker.selected);
 
     new Request({
       url: 'views/library/queue/queue.tmpl',
@@ -47,9 +47,9 @@ module.exports = Backbone.View.extend({
       mp3s: this.mp3s
     }));
 
-    this.listenTo(this.parent.picker, 'change', function (event) {
+    this.listenTo(this.parent.subviews.picker, 'change', function (event) {
       that.mp3s = that.parent.mp3s.selected(event.selected);
-      that.stopListening(that.parent.picker, 'change');
+      that.stopListening(that.parent.subviews.picker, 'change');
       that.render();
     });
   }
