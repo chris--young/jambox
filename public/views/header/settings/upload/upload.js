@@ -75,62 +75,67 @@ module.exports = Backbone.View.extend({
    * @description: Starts the upload process if a file was selected
    */
   changeFile: function () {
-    var filePath = this.ui.$uploadInput.val();
-
-    if (!filePath) {
-      return;
+    if (this.elements.$uploadInput.val()) {
+      this.getFile();
     }
-
-    this.getFileData();
   },
 
   /**
-   * Upload.getFileData()
-   * @description: Gets uploaded file's contents and checks for validity
+   * Upload.getFile()
+   * @description: Gets an uploaded file's contents
    */
-  getFileData: function () {
+  getFile: function () {
     var that = this,
-        files = this.elements.$uploadInput[0].files,
-        reader = new FileReader();
-
-    function load() {
-      return function (event) {
-        var valid = isMp3(new Uint8Array(event.target.result));
-
-        if (valid) {
-          that.uploadFile();
-        } else {
-          that.errorModal = new Modal({
-            title: 'Error',
-            message: 'The selected file is not a valid MP3.',
-            buttons: [{ text: 'Ok', callback: function () { that.errorModal.close(); } }]
-          });
-        }
-      };
-    }
+        files = this.elements.$uploadInput[0].files;
 
     _.each(files, function (file) {
-      reader.onload = load();
+      var reader = new FileReader();
+
+      reader.onload = function (event) {
+        if (that.checkFile(event)) {
+          that.uploadFile(file);
+        }
+      };
+
       reader.readAsArrayBuffer(file);
     });
   },
 
   /**
-   * Upload.uploadFile()
-   * @description: Persists a file to the server
+   * Upload.checkFile()
+   * @description: Checks that the uploaded file is an MP3
+   * @param: {Object} event
+   * @returns: {Boolen} true if valid MP3
    */
-  uploadFile: function () {
-    var that = this;
+  checkFile: function (event) {
+    var that = this,
+        fileData = new Uint8Array(event.target.result);
 
-    function showModal(title, message) {
-      that.resultModal = new Modal({
-        title: title,
-        message: message,
-        buttons: [{ text: 'Ok', callback: function () { that.resultModal.close(); } }]
-      });
+    if (isMp3(fileData)) {
+      return true;
+    } else {
+      if (!that.errorModal) {
+        that.errorModal = new Modal({
+          title: 'Error',
+          message: 'One or more of the selected files are not valid MP3s.',
+          buttons: [{ text: 'Ok', callback: function () { that.errorModal.close(); } }]
+        });
+      } else {
+        that.errorModal.render();
+      }
+      return false;
     }
+  },
 
-    var formData = new FormData(document.querySelector('#upload-form'));
+  /**
+   * Upload.uploadFile()
+   * @description: Persists an MP3 to the server
+   */
+  uploadFile: function (file) {
+    var that = this,
+        formData = new FormData();
+
+    formData.append('mp3', file);
 
     new Request({
       method: 'post',
@@ -138,14 +143,35 @@ module.exports = Backbone.View.extend({
       body: formData,
       callback: function (error, response) {
         if (error) {
-          return showModal('Error', 'The file failed to upload.');
+          return that.showResult('Error', 'The file(s) failed to upload.');
         }
 
-        showModal('Info', 'The file uploaded successfully.');
-
-        console.log('uploadFile() response ==', response);
+        that.showResult('Info', 'The file(s) uploaded successfully.');
+        that.parent.parent.parent.views.library.mp3s.add(response);
       }
     });
+  },
+
+  /**
+   * Upload.showResult()
+   * @description: Used to display a modal with results of upload
+   * @param: {String} title
+   * @param: {String} message
+   */
+  showResult: function (title, message) {
+    var that = this;
+
+    if (!this.resultModal) {
+      this.resultModal = new Modal({
+        title: title,
+        message: message,
+        buttons: [{ text: 'Ok', callback: function () { that.resultModal.close(); } }]
+      });
+    } else {
+      this.resultModal.title = title;
+      this.resultModal.message = message;
+      this.resultModal.render();
+    }
   },
 
   /**

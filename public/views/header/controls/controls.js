@@ -42,7 +42,7 @@ module.exports = Backbone.View.extend({
       $backward: $('#backward'),
       $playPause: $('#play-pause'),
       $playPauseSpan: $('#play-pause span'),
-      $forward: $('#forward')
+      $forward: $('#forward'),
     };
   },
 
@@ -51,18 +51,23 @@ module.exports = Backbone.View.extend({
    * @description: Draws the view
    */
   render: function () {
-    this.$el.html(this.template());
+    this.$el.html(this.template({
+      playing: this.parent.parent.sound.playing,
+      volume: this.parent.parent.sound.volume()
+    }));
+
     this.getElements();
   },
 
   /**
    * Controls.events
-   * @description: Declares click events
+   * @description: Declares view events
    */
   events: {
     'click #backward': 'backward',
     'click #play-pause': 'playPause',
-    'click #forward': 'forward'
+    'click #forward': 'forward',
+    'change #volume': 'volume'
   },
 
   /**
@@ -82,10 +87,10 @@ module.exports = Backbone.View.extend({
   playPause: function (event) {
     event.preventDefault();
 
-    if (this.elements.$playPauseSpan.hasClass('fa-play')) {
-      this.elements.$playPauseSpan.removeClass('fa-play').addClass('fa-pause');
-    } else {
+    if (this.parent.parent.sound.playPause()) {
       this.elements.$playPauseSpan.removeClass('fa-pause').addClass('fa-play');
+    } else {
+      this.elements.$playPauseSpan.removeClass('fa-play').addClass('fa-pause');
     }
   },
 
@@ -96,6 +101,17 @@ module.exports = Backbone.View.extend({
    */
   forward: function (event) {
     event.preventDefault();
+  },
+
+  /**
+   * Controls.volume()
+   * @description: Updates playback volume on user input
+   * @param: {Object} event
+   */
+  volume: function (event) {
+    var $target = $(event.target);
+
+    this.parent.parent.sound.volume($target.val());
   }
 
 });

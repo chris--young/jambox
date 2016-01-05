@@ -21,11 +21,11 @@ function Modal(options) {
 }
 
 /**
- * Modal.setUiElements()
- * @description: Gets DOM references for view elements
+ * Modal.getElements()
+ * @description: Gets DOM references
  */
-Modal.prototype.setUiElements = function () {
-  this.ui = {
+Modal.prototype.getElements = function () {
+  this.elements = {
     $title: $('#modal-title'),
     $message: $('#modal-message'),
     $buttons: $('#modal-buttons')
@@ -41,30 +41,30 @@ Modal.prototype.render = function () {
 
   if (!this.view) {
     this.$el.html(this.template());
-    this.setUiElements();
+    this.getElements();
 
-    this.ui.$title.text(this.title);
-    this.ui.$message.text(this.message);
+    this.elements.$title.text(this.title);
+    this.elements.$message.text(this.message);
 
     if (this.buttons) {
-      this.ui.$buttons.html('');
+      this.elements.$buttons.html('');
 
       _.each(this.buttons, function (button) {
         var $element = $('<button type="button">' + button.text + '</button>');
         $element.click(button.callback);
-        that.ui.$buttons.append($element);
+        that.elements.$buttons.append($element);
       });
     } else {
       var $button = $('<button type="button" data-dismiss="modal">Ok</button>');
       $button.click(this.callback);
-      this.ui.$buttons.append($button);
+      this.elements.$buttons.append($button);
     }
   } else {
     this.view.$el.html(this.view.template());
     this.view.delegateEvents();
 
-    if (this.view.setUiElements) {
-      this.view.setUiElements();
+    if (this.view.getElements) {
+      this.view.getElements();
     }
   }
 
@@ -80,4 +80,3 @@ Modal.prototype.close = function () {
 };
 
 module.exports = Modal;
-

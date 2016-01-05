@@ -64,36 +64,35 @@ module.exports = Backbone.View.extend({
     this.$el.html(this.template());
     this.getElements();
 
-    this.mp3s.on('error sync', function (event) {
-      if (event.type === 'error') {
-        that.$el.html(that.parent.templates.error());
-        return console.log('Library.render() error:', error);
-      }
+    this.mp3s.on('error', function (event) {
+      that.$el.html(that.parent.templates.error());
+      console.log('Library.mp3s error:', error);
+    });
 
-      async.series([
-        _.bind(that.showPicker, that),
-        _.bind(that.showQueue, that)
-      ], function (error) {
-        if (error) {
-          that.$el.html(that.parent.templates.error());
-          console.log('Library.render() error:', error);
-        }
+    this.mp3s.on('sync', function (mp3s) {
+      that.showContent();
+      that.mp3s.on('update', function () {
+        that.showContent();
       });
     });
 
-    /* this.mp3s.on('error sync', function (event) {
-      console.log('mp3s:', that.mp3s);
-
-      var audio = document.querySelector('#audio');
-      audio.src = 'mp3s/' + that.mp3s.at(0).get('id');
-      audio.play();
-
-      console.log('generas:', that.mp3s.generas());
-      console.log('artists:', that.mp3s.artists());
-      console.log('albums:', that.mp3s.albums());
-    }); */
-
     this.mp3s.fetch();
+  },
+
+  /**
+   * Library.showContent()
+   * @description: Shows the picker and queue or error
+   */
+  showContent: function () {
+    async.series([
+      _.bind(this.showPicker, this),
+      _.bind(this.showQueue, this)
+    ], function (error) {
+      if (error) {
+        this.$el.html(this.parent.templates.error());
+        console.log('Library.render() error:', error);
+      }
+    });
   },
 
   /**

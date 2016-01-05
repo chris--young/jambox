@@ -1,5 +1,5 @@
 <a href="#" id="backward"><span class="fa fa-backward fa-2x"></span></a>
-<a href="#" id="play-pause"><span class="fa fa-play fa-2x fa-fw"></span></a>
+<a href="#" id="play-pause"><span class="fa <%- playing ? 'fa-pause' : 'fa-play' %> fa-2x fa-fw"></span></a>
 <a href="#" id="forward"><span class="fa fa-forward fa-2x"></span></a>
 
-<input id="volume" type="range" min=0 max=1 step=0.1 value=0.5>
+<input id="volume" type="range" min="0" max="1" step="0.1" value="<%- volume %>">

@@ -41,19 +41,31 @@
   </thead>
   <tbody>
     <% _.each(mp3s, function (mp3) { %>
-      <a href="#" data-id="<%- mp3.get('id') %>">
-        <tr>
-          <!-- td><%- mp3.get('track') || 'Unknown' %></td -->
-          <td><%- mp3.get('title') || 'Unknown' %></td>
-          <td><%- mp3.get('fileName') || 'Unknown' %></td>
-          <td><%- mp3.get('artist') || 'Unknown' %></td>
-          <td><%- mp3.get('album') || 'Unknown' %></td>
-          <!-- td><%- mp3.get('genera') || 'Unknown' %></td -->
-          <td><%- mp3.get('bitrate') || 'Unknown' %></td>
-          <td><%- mp3.get('samplingRate') || 'Unknown' %></td>
-          <td><%- mp3.get('length') || 'Unknown' %></td>
-        </tr>
-      </a>
+      <tr class="queue-track" data-id="<%- mp3.get('id') %>">
+        <!-- td><%- mp3.get('track') || 'Unknown' %></td -->
+        <td><%- mp3.get('title') || 'Unknown' %></td>
+        <td><%- mp3.get('fileName') || 'Unknown' %></td>
+        <td><%- mp3.get('artist') || 'Unknown' %></td>
+        <td><%- mp3.get('album') || 'Unknown' %></td>
+        <!-- td><%- mp3.get('genera') || 'Unknown' %></td -->
+        <td><%- mp3.get('bitrate') || 'Unknown' %></td>
+        <td><%- mp3.get('samplingRate') || 'Unknown' %></td>
+        <td><%- mp3.get('length') || 'Unknown' %></td>
+      </tr>
+    <% }); %>
+    <% _.each(_.range(0, 19 - mp3s.length), function () { %>
+      <tr class="empty">
+        <!-- td>&nbsp;</td -->
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <!-- td>&nbsp;</td -->
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
     <% }); %>
   </tbody>
 </table>
+

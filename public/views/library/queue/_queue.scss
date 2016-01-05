@@ -22,6 +22,14 @@
     }
 
     tbody {
+      tr.queue-track {
+        cursor: pointer;
+      }
+
+      tr.playing td {
+        background: #F6F6F6;
+      }
+
       td {
         font-size: 1.5rem;
         max-width: 100px;

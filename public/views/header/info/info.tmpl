@@ -1,9 +1,14 @@
-<h1>Track Name</h1>
+<% if (mp3) { %>
+  <h1><%- mp3.get('title') ? mp3.get('title') : mp3.get('fileName') %></h1>
 
-<h2>Album Name</h2> - <h2>Artist</h2>
+  <h2><%- mp3.get('album') ? mp3.get('album') : 'Unknown Album' %></h2> - 
+  <h2><%- mp3.get('artist') ? mp3.get('artist') : 'Unknown Artist' %></h2>
 
-<label id="elapsed-time">0:00</label>
-<label id="remaining-time">0:00</label>
-<div class="progress">
-  <div class="progress-bar" role="progress-bar" aria-valuenow=60 aria-valuemin=0 aria-maxvalue=100 style="width: 60%;"></div>
-</div>
+  <label id="elapsed-time"><%- elapsed %></label>
+  <label id="remaining-time"><%- remaining %></label>
+  <div class="progress">
+    <div id="time" class="progress-bar" role="progress-bar" aria-valuenow=60 aria-valuemin=0 aria-maxvalue=100 style="width: <%- time %>%;"></div>
+  </div>
+<% } else { %>
+  <h1>No track selected</h1>
+<% } %>

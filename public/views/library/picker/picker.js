@@ -73,26 +73,24 @@ module.exports = Backbone.View.extend({
 
     event.preventDefault();
 
-    if (this.selected[category] === selected) {
-      return;
+    if (this.selected[category] !== selected) {
+      this.selected[category] = selected;
+
+      switch (category) {
+        case 'artist':
+          this.selected.album = 'All';
+          break;
+        case 'genera':
+          this.selected.album = 'All';
+          this.selected.artist = 'All';
+          break;
+        default:
+          break;
+      }
+
+      this.render();
+      this.trigger('change', { selected: this.selected });
     }
-
-    this.selected[category] = selected;
-
-    switch (category) {
-      case 'artist':
-        this.selected.album = 'All';
-        break;
-      case 'genera':
-        this.selected.album = 'All';
-        this.selected.artist = 'All';
-        break;
-      default:
-        break;
-    }
-
-    this.render();
-    this.trigger('change', { selected: this.selected });
   }
 
 });

@@ -13,6 +13,8 @@
       Nav = require('./views/nav/nav.js'),
       Library = require('./views/library/library.js');
 
+  var Sound = require('./utils/sound.js');
+
   var App = Backbone.Router.extend({
 
     /**
@@ -28,6 +30,8 @@
         error: _.template(this.elements.$errorTemplate.html()),
         loading: _.template(this.elements.$loadingTemplate.html())
       };
+
+      this.sound = new Sound();
 
       Backbone.history.start();
 
@@ -148,4 +152,3 @@
   console.log('app', app);
 
 })();
-
