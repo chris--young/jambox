@@ -31,11 +31,18 @@
         loading: _.template(this.elements.$loadingTemplate.html())
       };
 
-      this.sound = new Sound();
+      try {
+        this.sound = new Sound();
+      } catch (exception) {
+        this.elements.$unsupportedBrowserError.removeClass('hidden');
+        return console.log('App.initialize() exception:', exception);
+      }
 
       Backbone.history.start();
 
-      async.series([_.bind(this.renderHeader, this), _.bind(this.renderNav, this)], _.bind(this.showContent, this));
+      if (this.elements.$unsupportedBrowserError.hasClass('hidden')) {
+        async.series([_.bind(this.renderHeader, this), _.bind(this.renderNav, this)], _.bind(this.showContent, this));
+      }
     },
 
     /**
@@ -76,7 +83,8 @@
         $content: $('#content'),
         $contentWrapper: $('#content-wrapper'),
         $errorTemplate: $('#error-template'),
-        $loadingTemplate: $('#loading-template')
+        $loadingTemplate: $('#loading-template'),
+        $unsupportedBrowserError: $('#unsupported-browser-error')
       };
     },
 

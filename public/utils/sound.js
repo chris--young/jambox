@@ -3,18 +3,51 @@
  *
  * @description: HTML5 audio wrapper class
  * @author: Chris Young (young.c.5690@gmail.com)
+ *
+ * TODO: trigger a backbone event so info doesn't need to listen directly to the timeupdate event
  */
 
-// TODO: Handle unsupported browsers
-// TODO: Handle src load errors
+var Modal = require('./modal.js');
 
 function Sound(options) {
   _.extend(this, options);
   _.extend(this, Backbone.Events);
 
   this.element = document.querySelector('#audio');
-  this.element.volume = '0.1';
+
+  if (!this.element.canPlayType) {
+    throw 'HTML5 audio is not supported in this browser';
+  } else if (this.element.canPlayType('audio/mp3') === '') {
+    throw 'MP3 playback is not supported in this browser';
+  }
+
+  this.element.volume = '0.5';
+  this.element.addEventListener('error', _.bind(this.error, this));
+  this.element.addEventListener('ended', _.bind(this.stop, this));
 }
+
+/**
+ * Sound.error()
+ * @description: Displays an error modal and triggers an error event
+ * @param: {Object} event
+ */
+Sound.prototype.error = function (error) {
+  var that = this;
+
+  if (this.mp3) {
+    if (!this.modal) {
+      this.modal = new Modal({
+        title: 'Error',
+        message: 'The MP3 failed to load.',
+        buttons: [{ text: 'Ok', callback: function () { that.modal.close(); } }]
+      });
+    } else {
+      this.modal.render();
+    }
+
+    this.trigger('error', error);
+  }
+};
 
 /**
  * Sound.source()
@@ -27,7 +60,6 @@ Sound.prototype.source = function (mp3) {
     this.element.play();
     this.playing = true;
     this.trigger('start', { mp3: this.mp3 });
-    this.element.addEventListener('eneded', _.bind(this.stop, this));
   }
 };
 
@@ -73,6 +105,9 @@ Sound.prototype.playPause = function () {
  * @description: Ends playback of MP3
  */
 Sound.prototype.stop = function () {
+
+  console.log('Sound.stop()');
+
   this.mp3 = null;
   this.element.src = '';
   this.playing = false;
