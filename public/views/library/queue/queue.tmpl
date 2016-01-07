@@ -40,8 +40,8 @@
     </tr>
   </thead>
   <tbody>
-    <% _.each(mp3s, function (mp3) { %>
-      <tr class="queue-track" data-id="<%- mp3.get('id') %>">
+    <% _.each(mp3s, function (mp3, index) { %>
+      <tr class="queue-track" data-id="<%- mp3.get('id') %>" data-index="<%- index %>">
         <!-- td><%- mp3.get('track') || 'Unknown' %></td -->
         <td><%- mp3.get('title') || 'Unknown' %></td>
         <td><%- mp3.get('fileName') || 'Unknown' %></td>

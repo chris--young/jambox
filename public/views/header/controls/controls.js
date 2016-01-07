@@ -57,6 +57,8 @@ module.exports = Backbone.View.extend({
     }));
 
     this.getElements();
+    this.listenTo(this.parent.parent.sound, 'start', this.update);
+    this.listenTo(this.parent.parent.sound, 'stop', this.update);
   },
 
   /**
@@ -71,12 +73,26 @@ module.exports = Backbone.View.extend({
   },
 
   /**
+   * Controls.update()
+   * @description: Updates play pause button on playback beginning and end
+   * @param: {Object} event
+   */
+  update: function (event) {
+    if (this.parent.parent.sound.playing) {
+      this.elements.$playPauseSpan.removeClass('fa-play').addClass('fa-pause'); 
+    } else {
+      this.elements.$playPauseSpan.removeClass('fa-pause').addClass('fa-play');
+    }
+  },
+
+  /**
    * Controls.backward()
    * @description: Begins playback of the previous track in the queue
    * @param: {Object} event
    */
   backward: function (event) {
     event.preventDefault();
+    this.parent.parent.views.library.subviews.queue.backward();
   },
 
   /**
@@ -88,9 +104,9 @@ module.exports = Backbone.View.extend({
     event.preventDefault();
 
     if (this.parent.parent.sound.playPause()) {
-      this.elements.$playPauseSpan.removeClass('fa-pause').addClass('fa-play');
-    } else {
       this.elements.$playPauseSpan.removeClass('fa-play').addClass('fa-pause');
+    } else {
+      this.elements.$playPauseSpan.removeClass('fa-pause').addClass('fa-play');
     }
   },
 
@@ -101,6 +117,7 @@ module.exports = Backbone.View.extend({
    */
   forward: function (event) {
     event.preventDefault();
+    this.parent.parent.views.library.subviews.queue.forward();
   },
 
   /**
@@ -110,7 +127,6 @@ module.exports = Backbone.View.extend({
    */
   volume: function (event) {
     var $target = $(event.target);
-
     this.parent.parent.sound.volume($target.val());
   }
 

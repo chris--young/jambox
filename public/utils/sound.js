@@ -24,6 +24,7 @@ function Sound(options) {
   this.element.volume = '0.5';
   this.element.addEventListener('error', _.bind(this.error, this));
   this.element.addEventListener('ended', _.bind(this.stop, this));
+  this.element.addEventListener('timeupdate', _.bind(this.update, this));
 }
 
 /**
@@ -31,7 +32,7 @@ function Sound(options) {
  * @description: Displays an error modal and triggers an error event
  * @param: {Object} event
  */
-Sound.prototype.error = function (error) {
+Sound.prototype.error = function (event) {
   var that = this;
 
   if (this.mp3) {
@@ -45,7 +46,7 @@ Sound.prototype.error = function (error) {
       this.modal.render();
     }
 
-    this.trigger('error', error);
+    this.trigger('error', event);
   }
 };
 
@@ -61,24 +62,6 @@ Sound.prototype.source = function (mp3) {
     this.playing = true;
     this.trigger('start', { mp3: this.mp3 });
   }
-};
-
-/**
- * Sound.play()
- */
-Sound.prototype.play = function () {
-  if (this.mp3) {
-    this.element.play();
-    this.playing = true;
-  }
-};
-
-/**
- * Sound.pause()
- */
-Sound.prototype.pause = function () {
-  this.element.pause();
-  this.playing = false;
 };
 
 /**
@@ -105,9 +88,6 @@ Sound.prototype.playPause = function () {
  * @description: Ends playback of MP3
  */
 Sound.prototype.stop = function () {
-
-  console.log('Sound.stop()');
-
   this.mp3 = null;
   this.element.src = '';
   this.playing = false;
@@ -115,17 +95,21 @@ Sound.prototype.stop = function () {
 };
 
 /**
+ * Sound.update()
+ * @description: Triggers update event with the elapsed time as a percentage
+ * @param: {Object} event
+ */
+Sound.prototype.update = function (event) {
+  this.trigger('update', { elapsed: this.element.currentTime / this.element.duration * 100 });
+};
+
+/**
  * Sound.elapsed()
  * @description: Returns the length of track that has already been played
- * @param: {Boolean} percentage
  * @returns: {Number}
  */
-Sound.prototype.elapsed = function (percentage) {
-  if (percentage) {
-    return Math.floor(this.element.currentTime / this.element.duration * 100);
-  } else {
-    return Math.floor(this.element.currentTime);
-  }
+Sound.prototype.elapsed = function () {
+  return Math.floor(this.element.currentTime);
 };
 
 /**
@@ -135,15 +119,6 @@ Sound.prototype.elapsed = function (percentage) {
  */
 Sound.prototype.remaining = function () {
   return Math.floor(this.element.duration - this.element.currentTime);
-};
-
-/**
- * Sound.duration()
- * @description: Returns the total length of track
- * @returns: {Number}
- */
-Sound.prototype.duration = function () {
-  return Math.floor(this.element.duration);
 };
 
 /**

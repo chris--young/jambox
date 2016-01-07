@@ -51,8 +51,6 @@ module.exports = Backbone.View.extend({
    */
   render: function () {
     this.mp3 = this.parent.parent.sound.mp3;
-    this.listenToOnce(this.parent.parent.sound, 'start', this.start);
-    this.listenToOnce(this.parent.parent.sound, 'stop', this.render);
 
     this.$el.html(this.template({
       mp3: this.mp3,
@@ -62,7 +60,9 @@ module.exports = Backbone.View.extend({
     }));
 
     this.getElements();
-    this.parent.parent.sound.element.addEventListener('timeupdate', _.bind(this.time, this));
+    this.listenTo(this.parent.parent.sound, 'update', this.update);
+    this.listenToOnce(this.parent.parent.sound, 'start', this.start);
+    this.listenToOnce(this.parent.parent.sound, 'stop', this.render);
   },
 
   /**
@@ -76,18 +76,17 @@ module.exports = Backbone.View.extend({
   },
 
   /**
-   * Info.time()
+   * Info.update()
    * @description: Updates track progress bar
    * @param: {Object} event
    */
-  time: function (event) {
+  update: function (event) {
     var elapsed = this.parent.parent.sound.elapsed(),
-        remaining = this.parent.parent.sound.remaining(),
-        time = this.parent.parent.sound.elapsed(true);
+        remaining = this.parent.parent.sound.remaining();
 
     this.elements.$elapsed.text(elapsed);
     this.elements.$remaining.text(remaining);
-    this.elements.$time.width(time + '%');
+    this.elements.$time.width(event.elapsed + '%');
   }
 
 });
