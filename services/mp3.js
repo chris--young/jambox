@@ -153,12 +153,9 @@ exports.read = (id, callback) => {
       return callback();
     }
 
-    fs.readFile(mp3s[0].filePath, (error, data) => {
-      if (error) {
-        return callback(error);
-      }
+    let stream = fs.createReadStream(mp3s[0].filePath);
 
-      return callback(null, data);
-    });
+    stream.on('error', callback);
+    stream.on('open', () => { callback(null, stream); });
   });
 };

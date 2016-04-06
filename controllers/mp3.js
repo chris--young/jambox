@@ -86,7 +86,7 @@ exports.read = (request, response) => {
       return console.log(`* [${request.id}] No data found for ${request.params.id}`);
     }
 
-    response.status(200).send(data);
+    data.pipe(response);
     console.log(`* [${request.id}] Successfully retrieved mp3 data for ${request.params.id}`);
   });
 };

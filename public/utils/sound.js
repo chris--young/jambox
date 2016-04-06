@@ -118,7 +118,10 @@ Sound.prototype.elapsed = function () {
  * @returns: {Number}
  */
 Sound.prototype.remaining = function () {
-  return Math.floor(this.element.duration - this.element.currentTime);
+  if (!this.mp3)
+    return 0;
+
+  return Math.floor(this.mp3.get('length') - this.element.currentTime);
 };
 
 /**
