@@ -3,45 +3,119 @@
     <tr>
       <!-- th>
         <label>Track</label>
-        <a href="#"><span class="fa fa-sort"></span></a>
+        <a href="#" class="sort-queue" data-by="track">
+          <span class="fa fa-sort"></span>
+        </a>
       </th -->
       <th>
         <label>Title</label>
-        <a href="#"><span class="fa fa-sort"></span></a>
+        <a href="#" class="sort-queue" data-by="title">
+          <% if (sort.by === 'title') { %>
+            <% if (sort.direction > 0) { %>
+              <span class="fa fa-sort-asc"></span>
+            <% } else { %>
+              <span class="fa fa-sort-desc"></span>
+            <% } %>
+          <% } else { %>
+            <span class="fa fa-sort"></span>
+          <% } %>
+        </a>
       </th>
       <th>
         <label>File Name</label>
-        <a href="#"><span class="fa fa-sort"></span></a>
+        <a href="#" class="sort-queue" data-by="fileName">
+          <% if (sort.by === 'fileName') { %>
+            <% if (sort.direction > 0) { %>
+              <span class="fa fa-sort-asc"></span>
+            <% } else { %>
+              <span class="fa fa-sort-desc"></span>
+            <% } %>
+          <% } else { %>
+            <span class="fa fa-sort"></span>
+          <% } %>
+        </a>
       </th>
       <th>
         <label>Artist</label>
-        <a href="#"><span class="fa fa-sort"></span></a>
+        <a href="#" class="sort-queue" data-by="artist">
+          <% if (sort.by === 'artist') { %>
+            <% if (sort.direction > 0) { %>
+              <span class="fa fa-sort-asc"></span>
+            <% } else { %>
+              <span class="fa fa-sort-desc"></span>
+            <% } %>
+          <% } else { %>
+            <span class="fa fa-sort"></span>
+          <% } %>
+        </a>
       </th>
       <th>
         <label>Album</label>
-        <a href="#"><span class="fa fa-sort"></span></a>
+        <a href="#" class="sort-queue" data-by="album">
+          <% if (sort.by === 'album') { %>
+            <% if (sort.direction > 0) { %>
+              <span class="fa fa-sort-asc"></span>
+            <% } else { %>
+              <span class="fa fa-sort-desc"></span>
+            <% } %>
+          <% } else { %>
+            <span class="fa fa-sort"></span>
+          <% } %>
+        </a>
       </th>
       <!-- th>
         <label>Genera</label>
-        <a href="#"><span class="fa fa-sort"></span></a>
+        <a href="#" class="sort-queue" data-by="genera">
+          <span class="fa fa-sort"></span>
+        </a>
       </th -->
       <th>
         <label>Bitrate</label>
-        <a href="#"><span class="fa fa-sort"></span></a>
+        <a href="#" class="sort-queue" data-by="bitrate">
+          <% if (sort.by === 'bitrate') { %>
+            <% if (sort.direction > 0) { %>
+              <span class="fa fa-sort-asc"></span>
+            <% } else { %>
+              <span class="fa fa-sort-desc"></span>
+            <% } %>
+          <% } else { %>
+            <span class="fa fa-sort"></span>
+          <% } %>
+        </a>
       </th>
       <th>
         <label>Sample Rate</label>
-        <a href="#"><span class="fa fa-sort"></span></a>
+        <a href="#" class="sort-queue" data-by="samplingRate">
+          <% if (sort.by === 'samplingRate') { %>
+            <% if (sort.direction > 0) { %>
+              <span class="fa fa-sort-asc"></span>
+            <% } else { %>
+              <span class="fa fa-sort-desc"></span>
+            <% } %>
+          <% } else { %>
+            <span class="fa fa-sort"></span>
+          <% } %>
+        </a>
       </th>
       <th>
         <label>Length</label>
-        <a href="#"><span class="fa fa-sort"></span></a>
+        <a href="#" class="sort-queue" data-by="length">
+          <% if (sort.by === 'length') { %>
+            <% if (sort.direction > 0) { %>
+              <span class="fa fa-sort-asc"></span>
+            <% } else { %>
+              <span class="fa fa-sort-desc"></span>
+            <% } %>
+          <% } else { %>
+            <span class="fa fa-sort"></span>
+          <% } %>
+        </a>
       </th>
     </tr>
   </thead>
   <tbody>
     <% _.each(mp3s, function (mp3, index) { %>
-      <tr class="queue-track" data-id="<%- mp3.get('id') %>" data-index="<%- index %>">
+      <tr class="<%- playing == mp3.get('id') ? 'queue-track playing' : 'queue-track' %>" data-id="<%- mp3.get('id') %>" data-index="<%- index %>">
         <!-- td><%- mp3.get('track') || 'Unknown' %></td -->
         <td><%- mp3.get('title') || 'Unknown' %></td>
         <td><%- mp3.get('fileName') || 'Unknown' %></td>

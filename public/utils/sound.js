@@ -100,7 +100,8 @@ Sound.prototype.stop = function () {
  * @param: {Object} event
  */
 Sound.prototype.update = function (event) {
-  this.trigger('update', { elapsed: this.element.currentTime / this.element.duration * 100 });
+  if (this.mp3)
+    this.trigger('update', { elapsed: this.element.currentTime / this.mp3.get('length') * 100 });
 };
 
 /**

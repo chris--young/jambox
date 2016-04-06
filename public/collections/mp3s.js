@@ -88,7 +88,7 @@ module.exports = Backbone.Collection.extend({
    * @description: Returns tracks selected by the picker
    * @returns: {Array}
    */
-  selected: function (selected) {
+  selected: function (selected, sort) {
     var mp3s = [];
 
     for (var index = 0; index < this.length; index++) {
@@ -102,6 +102,15 @@ module.exports = Backbone.Collection.extend({
         mp3s.push(this.at(index));
       }
     }
+
+    if (sort)
+      mp3s.sort(function (a, b) {
+        if (a.get(sort.by) < b.get(sort.by))
+          return -1 * sort.direction;
+        if (a.get(sort.by) > b.get(sort.by))
+          return 1 * sort.direction;
+        return 0;
+      });
 
     return mp3s;
   }
