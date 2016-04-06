@@ -122,9 +122,9 @@ module.exports = Backbone.View.extend({
         index = Math.floor(Math.random() * (this.mp3s.length - 1)) + this.mp3s.length - 1;
       } else {
         index--;
-        this.playing = this.mp3s[index].get('id');
       }
 
+      this.playing = this.mp3s[index].get('id');
       this.parent.parent.sound.source(this.mp3s[index]);
       this.listenToOnce(this.parent.parent.sound, 'stop', this.foward);
       $('tr.queue-track[data-id="' + this.playing + '"]').addClass('playing');
@@ -154,9 +154,9 @@ module.exports = Backbone.View.extend({
           index = Math.floor(Math.random() * (this.mp3s.length - 1)) + this.mp3s.length - 1;
         } else {
           index++;
-          this.playing = this.mp3s[index].get('id');
         }
 
+        this.playing = this.mp3s[index].get('id');
         this.parent.parent.sound.source(this.mp3s[index]);
         this.listenToOnce(this.parent.parent.sound, 'stop', this.forward);
         $('tr.queue-track[data-id="' + this.playing + '"]').addClass('playing');
