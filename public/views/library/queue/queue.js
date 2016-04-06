@@ -119,7 +119,7 @@ module.exports = Backbone.View.extend({
 
     if (index > 0) {
       if (this.parent.parent.views.header.subviews.settings.random) {
-        index = Math.floor(Math.random() * (this.mp3s.length - 1)) + this.mp3s.length - 1;
+        index = Math.floor(Math.random() * (this.mp3s.length - 1)) + this.mp3s.length - 2;
       } else {
         index--;
       }
@@ -151,7 +151,7 @@ module.exports = Backbone.View.extend({
     if (index !== null) {
       if (index < this.mp3s.length - 1) {
         if (this.parent.parent.views.header.subviews.settings.random) {
-          index = Math.floor(Math.random() * (this.mp3s.length - 1)) + this.mp3s.length - 1;
+          index = Math.floor(Math.random() * (this.mp3s.length - 1)) + this.mp3s.length - 2;
         } else {
           index++;
         }
